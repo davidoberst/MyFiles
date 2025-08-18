@@ -16,15 +16,36 @@
       <input
         type="text"
         class="search_bar"
+        id="query"
         placeholder="Search for a file in your system"
       />
-      <button class="search_button"><i class="fas fa-search"></i></button>
+      <button   id="search_bt"class="search_button"><i class="fas fa-search"></i></button>
     </center>
 
     <center>
       <div class="containerFiles">
-        <p class="info">You havent search for anything yet ! </p>
+        <pre id="result" class="info">
+        </pre
+        >
       </div>
     </center>
+
+<script>
+  const searchButton = document.getElementById("search_bt");
+
+  searchButton.addEventListener("click", async () => {
+      const query = document.getElementById("query").value;
+
+      if (!query) {
+          document.getElementById("result").textContent = "Please type something first!";
+          return;
+      }
+
+      let result = await pywebview.api.search_file(query);
+      document.getElementById("result").textContent = result.join("\n");
+  });
+</script>
+
+
   </body>
 </html>
