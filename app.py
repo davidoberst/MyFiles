@@ -10,7 +10,8 @@ class Api:
         for root, dirs, files in os.walk(home_dir):
             for file in files:
                 if query.lower() in file.lower():
-                    results.append(os.path.join(root, file))
+                    results.append(os.path.join(file))
+                    
 
         if not results:
             return ["No files found..."]

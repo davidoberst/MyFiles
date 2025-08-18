@@ -1,23 +1,57 @@
 body{
-    background-color: #171717;;
+    background: linear-gradient(to right,#1b1b1b,#111111);
     font-family: Arial, Helvetica, sans-serif;
 }
+
+#result {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+
+  /* Scroll minimalista */
+  scrollbar-width: thin;          /* Firefox */
+  scrollbar-color: #888 #323232;  /* Firefox: thumb + track */
+}
+
+#result::-webkit-scrollbar {
+  width: 6px;   /* grosor */
+}
+
+#result::-webkit-scrollbar-track {
+  background: #323232;  /* fondo del scroll */
+  border-radius: 10px;
+}
+
+#result::-webkit-scrollbar-thumb {
+  background: #888;     /* color del scroll */
+  border-radius: 10px;
+}
+
+#result::-webkit-scrollbar-thumb:hover {
+  background: #aaa;     /* más clarito al pasar el mouse */
+}
+
+
 
 .title{
     text-align: center;
     color: rgb(238, 238, 238);
     font-size: 60px;
-    margin-top: 150px;
+    margin-top: 90px;
     margin-bottom: 30px;
 }
 
 .search_bar{
     width: 40%;
-    height: 50px;
+    height: 55px;
     border-radius: 100px;
     font-size: 20px;
     border: none;
-    background-color: rgb(224, 224, 224);
+    color: white;
+    background-color: #323232;
     padding-left: 20px;
     margin-right: 4px;
     vertical-align: middle; 
@@ -36,11 +70,11 @@ body{
 
 
 .search_button{
-    width: 50PX;
-    height: 50px;
+    width: 55PX;
+    height: 55px;
     border-radius: 100px;
     border: none;
-    background-color: rgb(37, 66, 161);
+    background-color: #323232;
     vertical-align: middle; 
     color: aliceblue;
     font-size: 20px;
@@ -49,14 +83,19 @@ body{
 }
 .search_button:hover{
     transform: scale(1.1); 
-    background-color: rgb(19, 39, 102);
+    background-color: #1d1d1d;
 }
 
-.containerFiles{
-margin-top: 50px;
-width: 45%;
-height: 450px;
-border-radius: 15px ;
+#containerFiles {
+  background-color: #323232;
+  margin-top: 40px;
+  width: 45%;
+  height: 400px;
+  border-radius: 50px;
+  overflow: hidden;      /* evita que nada se salga */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -68,3 +107,26 @@ border-radius: 15px ;
     padding-top: 150px;
     font-size: 17px;
 }
+
+
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  display: none;
+  width: 50px;
+  margin-top: 100px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #133ebd;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}

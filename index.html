@@ -19,33 +19,49 @@
         id="query"
         placeholder="Search for a file in your system"
       />
-      <button   id="search_bt"class="search_button"><i class="fas fa-search"></i></button>
+      <button id="search_bt" class="search_button">
+        <i class="fas fa-search"></i>
+      </button>
+      <div id="loader" class="loader"></div>
     </center>
 
     <center>
-      <div class="containerFiles">
-        <pre id="result" class="info">
-        </pre
-        >
+      <div id="containerFiles">
+        <p id="resultCounter"></p>
+        <pre id="result" class="info"></pre>
       </div>
     </center>
 
-<script>
-  const searchButton = document.getElementById("search_bt");
+    <script>
+      const searchButton = document.getElementById("search_bt");
+      const loader = document.getElementById("loader");
+      const containerFiles = document.getElementById("containerFiles");
+      const resultContainer = document.getElementById("result");
+      const resultCounter = document.getElementById("resultCounter")
 
-  searchButton.addEventListener("click", async () => {
-      const query = document.getElementById("query").value;
+      searchButton.addEventListener("click", async () => {
+        const query = document.getElementById("query").value;
 
-      if (!query) {
-          document.getElementById("result").textContent = "Please type something first!";
+        if (!query) {
+          resultContainer.textContent = "Please type something first!" ;
           return;
-      }
+        }
+        
+        loader.style.display = "block";
+        containerFiles.style.display = "none";  
+        resultContainer.textContent = "";
 
-      let result = await pywebview.api.search_file(query);
-      document.getElementById("result").textContent = result.join("\n");
-  });
-</script>
-
-
+        try {
+          let result = await pywebview.api.search_file(query);
+          resultContainer.textContent = result.join("\n");
+          
+        } catch (err) {
+          resultContainer.textContent = "Error :" + err;
+        } finally {
+          loader.style.display = "none";
+          containerFiles.style.display = "block";  
+        }
+      });
+    </script>
   </body>
 </html>
