@@ -11,11 +11,13 @@ class Api:
             for file in files:
                 if query.lower() in file.lower():
                     results.append(os.path.join(file))
-                    
 
-        if not results:
-            return ["No files found..."]
-        return results
+        counter = len(results)  # ahora sí cuenta al final
+
+        return {
+            "count": counter,
+            "files": results if results else []
+        }
 
 
 # Inicializar la ventana con PyWebView

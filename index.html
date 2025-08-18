@@ -37,29 +37,48 @@
       const loader = document.getElementById("loader");
       const containerFiles = document.getElementById("containerFiles");
       const resultContainer = document.getElementById("result");
-      const resultCounter = document.getElementById("resultCounter")
+      const resultCounter = document.getElementById("resultCounter");
 
       searchButton.addEventListener("click", async () => {
         const query = document.getElementById("query").value;
 
         if (!query) {
-          resultContainer.textContent = "Please type something first!" ;
+          loader.style.display = "block";
+          containerFiles.style.display = "none";
+
+          // Espera 800ms para simular carga
+          setTimeout(() => {
+            loader.style.display = "none";
+            containerFiles.style.display = "block";
+            resultCounter.textContent = "Please type something first!";
+            resultContainer.textContent = "";
+          }, 800);
+
           return;
         }
-        
-        loader.style.display = "block";
-        containerFiles.style.display = "none";  
-        resultContainer.textContent = "";
 
+        loader.style.display = "block";
+        containerFiles.style.display = "none";
+        resultContainer.textContent = "";
         try {
           let result = await pywebview.api.search_file(query);
-          resultContainer.textContent = result.join("\n");
-          
+
+          // Mostrar contador en el <p>
+          if (result.count === 0) {
+            loader.style.display = "block";
+            containerFiles.style.display = "none";
+            resultContainer.textContent = "";
+            resultCounter.textContent = "No files found...";
+            resultContainer.textContent = "";
+          } else {
+            resultContainer.textContent = result.files.join("\n");
+            resultCounter.innerHTML = `<span class="number">${result.count}</span> <span class="text">files found</span>`;
+          }
         } catch (err) {
           resultContainer.textContent = "Error :" + err;
         } finally {
           loader.style.display = "none";
-          containerFiles.style.display = "block";  
+          containerFiles.style.display = "block";
         }
       });
     </script>
