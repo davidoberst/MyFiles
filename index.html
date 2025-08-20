@@ -28,7 +28,8 @@
     <center>
       <div id="containerFiles">
         <p id="resultCounter"></p>
-        <pre id="result" class="info"></pre>
+
+       <div id="result" class="file-list"></div>
       </div>
     </center>
 
@@ -71,8 +72,23 @@
             resultCounter.textContent = "No files found...";
             resultContainer.textContent = "";
           } else {
-            resultContainer.textContent = result.files.join("\n");
-            resultCounter.innerHTML = `<span class="number">${result.count}</span> <span class="text">files found</span>`;
+            // Mantén el contador
+            resultCounter.innerHTML = `
+          <span class="number">${result.count}</span>
+          <span class="text">files found</span>
+        `;
+
+            // Pinta los archivos como chips (cuadrito + punto azul)
+            resultContainer.innerHTML = result.files
+              .map(
+                (file) => `
+            <div class="file-chip">
+              <span class="dot"></span>
+              <span class="file-text">${file}</span>
+            </div>
+          `
+              )
+              .join("");
           }
         } catch (err) {
           resultContainer.textContent = "Error :" + err;
